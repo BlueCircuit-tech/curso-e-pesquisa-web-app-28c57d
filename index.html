@@ -1024,6 +1024,355 @@
     </script>
 </section>
 
+    <section data-tela="suporte-e-ajuda" class="hidden">
+  <div id="suporte-anim" class="animate-entrada">
+    <!-- Header da tela -->
+    <div class="px-5 pt-6 pb-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-bold text-marca-900 font-display tracking-tight">Suporte e Ajuda</h2>
+          <p class="text-xs text-marca-900/50 mt-0.5 font-body">Como podemos ajudá-lo hoje?</p>
+        </div>
+        <button onclick="suporte_e_ajuda_abrirContato()" class="w-9 h-9 rounded-full bg-marca-100 flex items-center justify-center active:scale-90 transition-transform" title="Contato direto">
+          <svg class="w-4 h-4 text-marca-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Chat com Atendente Virtual -->
+    <div class="mx-5 mb-4">
+      <div class="flex items-center gap-2 mb-3">
+        <div class="w-8 h-8 rounded-full bg-marca-900 flex items-center justify-center">
+          <svg class="w-4 h-4 text-marca-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-marca-900 font-display">Atendente Virtual</p>
+          <p class="text-[10px] text-green-600 font-body">Online agora</p>
+        </div>
+      </div>
+
+      <!-- Mensagens do chat -->
+      <div id="suporte-chat-mensagens" class="bg-marca-50 rounded-2xl p-4 h-56 overflow-y-auto space-y-3 border border-marca-900/5">
+        <div class="flex gap-2">
+          <div class="w-7 h-7 rounded-full bg-marca-900 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <svg class="w-3.5 h-3.5 text-marca-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+          </div>
+          <div class="bg-white rounded-2xl rounded-tl-md px-3.5 py-2.5 max-w-[82%] shadow-sm border border-marca-900/5">
+            <p class="text-xs text-marca-900 font-body leading-relaxed">Olá! Bem-vindo ao suporte da BlueCircuit. Sou o assistente virtual. Como posso ajudá-lo hoje?</p>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <div class="w-7 h-7 rounded-full bg-marca-900 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <svg class="w-3.5 h-3.5 text-marca-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+          </div>
+          <div class="bg-white rounded-2xl rounded-tl-md px-3.5 py-2.5 max-w-[82%] shadow-sm border border-marca-900/5">
+            <p class="text-xs text-marca-900 font-body leading-relaxed">Você pode digitar sua dúvida ou escolher um dos atalhos abaixo:</p>
+            <div class="flex flex-wrap gap-1.5 mt-2">
+              <button onclick="suporte_e_ajuda_atalho('Como acessar um relatório?')" class="text-[11px] bg-marca-100 text-marca-900 px-2.5 py-1 rounded-full font-body hover:bg-marca-900 hover:text-marca-100 active:scale-95 transition-all">📄 Relatórios</button>
+              <button onclick="suporte_e_ajuda_atalho('Como acessar um curso?')" class="text-[11px] bg-marca-100 text-marca-900 px-2.5 py-1 rounded-full font-body hover:bg-marca-900 hover:text-marca-100 active:scale-95 transition-all">🎓 Cursos</button>
+              <button onclick="suporte_e_ajuda_atalho('Problema de acesso')" class="text-[11px] bg-marca-100 text-marca-900 px-2.5 py-1 rounded-full font-body hover:bg-marca-900 hover:text-marca-100 active:scale-95 transition-all">🔑 Acesso</button>
+              <button onclick="suporte_e_ajuda_atalho('Falar com atendente humano')" class="text-[11px] bg-marca-100 text-marca-900 px-2.5 py-1 rounded-full font-body hover:bg-marca-900 hover:text-marca-100 active:scale-95 transition-all">👤 Humano</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input do chat -->
+      <div class="mt-3 flex gap-2">
+        <input id="suporte-chat-input" type="text" placeholder="Digite sua dúvida..."
+          class="flex-1 bg-marca-50 border border-marca-900/10 rounded-xl px-4 py-2.5 text-sm text-marca-900 placeholder-marca-900/30 focus:outline-none focus:border-marca-900/30 focus:ring-1 focus:ring-marca-900/10 font-body transition-all"
+          onkeydown="if(event.key==='Enter')suporte_e_ajuda_enviarMensagem()">
+        <button onclick="suporte_e_ajuda_enviarMensagem()" class="bg-marca-900 text-marca-100 rounded-xl px-4 py-2.5 active:scale-95 transition-all hover:bg-marca-900/90">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Separador -->
+    <div class="mx-5 mb-4 flex items-center gap-3">
+      <div class="flex-1 h-px bg-marca-900/10"></div>
+      <span class="text-[10px] text-marca-900/40 font-body uppercase tracking-widest">ou explore</span>
+      <div class="flex-1 h-px bg-marca-900/10"></div>
+    </div>
+
+    <!-- FAQ por Temas -->
+    <div class="px-5 mb-5">
+      <h3 class="text-sm font-bold text-marca-900 font-display mb-3">Perguntas Frequentes</h3>
+
+      <!-- Tema: Acesso e Cadastro -->
+      <div class="mb-2.5">
+        <button onclick="suporte_e_ajuda_toggleTema(this)" class="w-full flex items-center gap-2.5 bg-marca-50 rounded-xl px-4 py-3 border border-marca-900/5 active:scale-[0.99] transition-all">
+          <span class="text-base">🔐</span>
+          <span class="text-sm font-semibold text-marca-900 font-body flex-1 text-left">Acesso e Cadastro</span>
+          <svg class="w-4 h-4 text-marca-900/40 transition-transform suporte-icone-tema" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="suporte-conteudo-tema hidden mt-1.5 space-y-1.5">
+          <button onclick="suporte_e_ajuda_respostaFAQ('Esqueci minha senha. Como recuperar?','Vá para a tela de login e clique em "Esqueci minha senha". Informe seu e-mail cadastrado e receberá um link para redefinir sua senha em até 5 minutos.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Esqueci minha senha. Como recuperar?</p>
+          </button>
+          <button onclick="suporte_e_ajuda_respostaFAQ('Como alterar meus dados cadastrais?','Acesse o menu "Perfil" no canto superior direito. Clique em "Editar dados" para alterar nome, telefone ou e-mail. Alterações de e-mail exigem confirmação.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Como alterar meus dados cadastrais?</p>
+          </button>
+          <button onclick="suporte_e_ajuda_respostaFAQ('Posso compartilhar meu acesso com colegas?','Cada usuário deve possuir seu próprio acesso. Para múltiplos usuários na mesma empresa, solicite a criação de contas adicionais pelo formulário de contato.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Posso compartilhar meu acesso com colegas?</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tema: Relatórios -->
+      <div class="mb-2.5">
+        <button onclick="suporte_e_ajuda_toggleTema(this)" class="w-full flex items-center gap-2.5 bg-marca-50 rounded-xl px-4 py-3 border border-marca-900/5 active:scale-[0.99] transition-all">
+          <span class="text-base">📊</span>
+          <span class="text-sm font-semibold text-marca-900 font-body flex-1 text-left">Relatórios</span>
+          <svg class="w-4 h-4 text-marca-900/40 transition-transform suporte-icone-tema" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="suporte-conteudo-tema hidden mt-1.5 space-y-1.5">
+          <button onclick="suporte_e_ajuda_respostaFAQ('Como pesquisar um relatório?','Use a busca na tela "Pesquisar Relatórios". Digite palavras-chave como nome do relatório, setor ou data. Os filtros laterais permitem refinar por período e categoria.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Como pesquisar um relatório?</p>
+          </button>
+          <button onclick="suporte_e_ajuda_respostaFAQ('Quais formatos estão disponíveis?','Os relatórios estão disponíveis em PDF para download e visualização online. Alguns relatórios possuem dados complementares em formato CSV para análise própria.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Quais formatos estão disponíveis?</p>
+          </button>
+          <button onclick="suporte_e_ajuda_respostaFAQ('Com que frequência os relatórios são atualizados?','A periodicidade varia por relatório. Consulte a data de atualização na página de cada relatório. Relatórios mensais são atualizados nos primeiros 10 dias úteis do mês seguinte.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Com que frequência os relatórios são atualizados?</p>
+          </button>
+          <button onclick="suporte_e_ajuda_respostaFAQ('Posso solicitar um relatório personalizado?','Sim. Use o formulário de contato selecionando "Relatório personalizado". Descreva o setor, período e dados de interesse. Nossa equipe responderá em até 3 dias úteis.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Posso solicitar um relatório personalizado?</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tema: Cursos e Palestras -->
+      <div class="mb-2.5">
+        <button onclick="suporte_e_ajuda_toggleTema(this)" class="w-full flex items-center gap-2.5 bg-marca-50 rounded-xl px-4 py-3 border border-marca-900/5 active:scale-[0.99] transition-all">
+          <span class="text-base">🎓</span>
+          <span class="text-sm font-semibold text-marca-900 font-body flex-1 text-left">Cursos e Palestras</span>
+          <svg class="w-4 h-4 text-marca-900/40 transition-transform suporte-icone-tema" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="suporte-conteudo-tema hidden mt-1.5 space-y-1.5">
+          <button onclick="suporte_e_ajuda_respostaFAQ('Como acessar um curso?','Vá para a tela "Cursos e Palestras", escolha o curso desejado e clique em "Acessar". O conteúdo é liberado imediatamente e seu progresso é salvo automaticamente.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Como acessar um curso?</p>
+          </button>
+          <button onclick="suporte_e_ajuda_respostaFAQ('Os cursos têm certificado?','Sim. Ao concluir 100% do conteúdo e aprovar a avaliação final, o certificado é emitido automaticamente e disponibilizado para download.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Os cursos têm certificado?</p>
+          </button>
+          <button onclick="suporte_e_ajuda_respostaFAQ('Por quanto tempo tenho acesso ao conteúdo?','O acesso é ilimitado durante a vigência do seu plano. Após o vencimento, você terá 30 dias para concluir cursos em andamento antes da perda de acesso.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Por quanto tempo tenho acesso ao conteúdo?</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tema: Assinatura e Pagamento -->
+      <div class="mb-2.5">
+        <button onclick="suporte_e_ajuda_toggleTema(this)" class="w-full flex items-center gap-2.5 bg-marca-50 rounded-xl px-4 py-3 border border-marca-900/5 active:scale-[0.99] transition-all">
+          <span class="text-base">💳</span>
+          <span class="text-sm font-semibold text-marca-900 font-body flex-1 text-left">Assinatura e Pagamento</span>
+          <svg class="w-4 h-4 text-marca-900/40 transition-transform suporte-icone-tema" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="suporte-conteudo-tema hidden mt-1.5 space-y-1.5">
+          <button onclick="suporte_e_ajuda_respostaFAQ('Como emitir a nota fiscal?','Acesse a tela "Painel Inicial" e clique em "Assinatura". Clique em "Ver nota fiscal" ao lado da cobrança correspondente. O PDF é gerado imediatamente.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Como emitir a nota fiscal?</p>
+          </button>
+          <button onclick="suporte_e_ajuda_respostaFAQ('Como cancelar minha assinatura?','Acesse "Painel Inicial" → "Assinatura" → "Cancelar plano". O cancelamento é efetivado ao final do ciclo vigente. Seus dados permanecem salvos por 90 dias.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Como cancelar minha assinatura?</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tema: Suporte Técnico -->
+      <div class="mb-1">
+        <button onclick="suporte_e_ajuda_toggleTema(this)" class="w-full flex items-center gap-2.5 bg-marca-50 rounded-xl px-4 py-3 border border-marca-900/5 active:scale-[0.99] transition-all">
+          <span class="text-base">🔧</span>
+          <span class="text-sm font-semibold text-marca-900 font-body flex-1 text-left">Suporte Técnico</span>
+          <svg class="w-4 h-4 text-marca-900/40 transition-transform suporte-icone-tema" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="suporte-conteudo-tema hidden mt-1.5 space-y-1.5">
+          <button onclick="suporte_e_ajuda_respostaFAQ('O app está lento. O que fazer?','Tente fechar e reabrir o aplicativo. Verifique sua conexão com a internet. Se o problema persistir, limpe o cache do app nas configurações do dispositivo.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">O app está lento. O que fazer?</p>
+          </button>
+          <button onclick="suporte_e_ajuda_respostaFAQ('Não consigo baixar o relatório.','Verifique se há espaço disponível no dispositivo. Se o problema continuar, tente por um navegador desktop em portal.bluecircuit.com.br.')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">Não consigo baixar o relatório.</p>
+          </button>
+          <button onclick="suporte_e_ajuda_respostaFAQ('O vídeo do curso não carrega.','Vá para a tela "Cursos e Palestras" e clique no botão de atualização no player. Verifique também a velocidade da sua conexão (mínimo 5 Mbps recomendado).')" class="w-full text-left bg-white rounded-xl px-4 py-3 border border-marca-900/5 hover:border-marca-900/15 active:scale-[0.99] transition-all">
+            <p class="text-xs text-marca-900/70 font-body">O vídeo do curso não carrega.</p>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão Contato Direto -->
+    <div class="px-5 pb-8">
+      <button onclick="suporte_e_ajuda_abrirContato()" class="w-full bg-marca-900 text-marca-100 rounded-2xl py-3.5 text-sm font-semibold font-display active:scale-[0.97] transition-all hover:bg-marca-900/90 flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        Falar com um Especialista
+      </button>
+      <p class="text-center text-[10px] text-marca-900/35 mt-2.5 font-body">Atendimento em horário comercial — Seg a Sex, 8h às 18h</p>
+    </div>
+  </div>
+</section>
+
+<!-- Modal: Resposta do FAQ / Contato -->
+<script>
+  (function() {
+    var respostas = {
+      'Esqueci minha senha. Como recuperar?': 'Vá para a tela de login e clique em "Esqueci minha senha". Informe seu e-mail cadastrado e receberá um link para redefinir sua senha em até 5 minutos.',
+      'Como alterar meus dados cadastrais?': 'Acesse o menu "Perfil" no canto superior direito. Clique em "Editar dados" para alterar nome, telefone ou e-mail.',
+      'Posso compartilhar meu acesso com colegas?': 'Cada usuário deve possuir seu próprio acesso. Para múltiplos usuários, solicite contas adicionais pelo formulário.',
+      'Como pesquisar um relatório?': 'Use a busca na tela "Pesquisar Relatórios". Digite palavras-chave como nome, setor ou data. Filtros laterais permitem refinar por período e categoria.',
+      'Quais formatos estão disponíveis?': 'PDF para download e visualização online. Alguns relatórios possuem dados complementares em CSV.',
+      'Com que frequência os relatórios são atualizados?': 'A periodicidade varia. Relatórios mensais são atualizados nos primeiros 10 dias úteis do mês seguinte.',
+      'Posso solicitar um relatório personalizado?': 'Sim. Use o formulário de contato selecionando "Relatório personalizado". Resposta em até 3 dias úteis.',
+      'Como acessar um curso?': 'Vá para "Cursos e Palestras", escolha o curso e clique em "Acessar". O progresso é salvo automaticamente.',
+      'Os cursos têm certificado?': 'Sim. Ao concluir 100% e aprovar a avaliação, o certificado é emitido automaticamente para download.',
+      'Por quanto tempo tenho acesso?': 'Ilimitado durante a vigência do plano. Após vencimento, 30 dias para concluir cursos em andamento.',
+      'Como emitir a nota fiscal?': 'Acesse "Painel Inicial" → "Assinatura" → "Ver nota fiscal". O PDF é gerado imediatamente.',
+      'Como cancelar minha assinatura?': 'Acesse "Painel Inicial" → "Assinatura" → "Cancelar plano". Efetivado ao final do ciclo vigente.',
+      'O app está lento. O que fazer?': 'Feche e reabra o app. Verifique a conexão. Se persistir, limpe o cache nas configurações.',
+      'Não consigo baixar o relatório.': 'Verifique espaço no dispositivo. Tente pelo portal web em portal.bluecircuit.com.br.',
+      'O vídeo do curso não carrega.': 'Atualize o player. Verifique conexão (mínimo 5 Mbps recomendado).'
+    };
+
+    window.suporte_e_ajuda_toggleTema = function(btn) {
+      var conteudo = btn.nextElementSibling;
+      var icone = btn.querySelector('.suporte-icone-tema');
+      var isOpen = !conteudo.classList.contains('hidden');
+      if (isOpen) {
+        conteudo.classList.add('hidden');
+        icone.style.transform = 'rotate(0deg)';
+      } else {
+        conteudo.classList.remove('hidden');
+        icone.style.transform = 'rotate(180deg)';
+      }
+    };
+
+    window.suporte_e_ajuda_respostaFAQ = function(pergunta, resposta) {
+      var html = '<div class="space-y-3">' +
+        '<div class="bg-marca-50 rounded-xl px-4 py-3 border border-marca-900/5">' +
+        '<p class="text-xs font-semibold text-marca-900 font-display">' + pergunta + '</p>' +
+        '</div>' +
+        '<div class="flex gap-2">' +
+        '<div class="w-7 h-7 rounded-full bg-marca-900 flex items-center justify-center flex-shrink-0">' +
+        '<svg class="w-3.5 h-3.5 text-marca-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>' +
+        '</div>' +
+        '<div class="bg-white rounded-2xl rounded-tl-md px-4 py-3 max-w-[85%] shadow-sm border border-marca-900/5">' +
+        '<p class="text-xs text-marca-900 font-body leading-relaxed">' + resposta + '</p>' +
+        '</div>' +
+        '</div>' +
+        '<div class="flex gap-2 pt-1">' +
+        '<button onclick="suporte_e_ajuda_resolveu()" class="text-[11px] bg-green-50 text-green-700 px-3 py-1.5 rounded-lg font-body hover:bg-green-100 active:scale-95 transition-all">👍 Sim, resolveu</button>' +
+        '<button onclick="suporte_e_ajuda_abrirContato()" class="text-[11px] bg-marca-100 text-marca-900 px-3 py-1.5 rounded-lg font-body hover:bg-marca-900 hover:text-marca-100 active:scale-95 transition-all">Ainda preciso de ajuda</button>' +
+        '</div>' +
+        '</div>';
+      abrirModal(html, 'Resposta');
+    };
+
+    window.suporte_e_ajuda_atalho = function(mensagem) {
+      var input = document.getElementById('suporte-chat-input');
+      input.value = mensagem;
+      suporte_e_ajuda_enviarMensagem();
+    };
+
+    window.suporte_e_ajuda_enviarMensagem = function() {
+      var input = document.getElementById('suporte-chat-input');
+      var texto = input.value.trim();
+      if (!texto) return;
+
+      var container = document.getElementById('suporte-chat-mensagens');
+
+      // Mensagem do usuário
+      var userMsg = '<div class="flex gap-2 justify-end">' +
+        '<div class="bg-marca-900 text-marca-100 rounded-2xl rounded-tr-md px-3.5 py-2.5 max-w-[82%]">' +
+        '<p class="text-xs font-body leading-relaxed">' + texto + '</p>' +
+        '</div>' +
+        '</div>';
+      container.insertAdjacentHTML('beforeend', userMsg);
+      input.value = '';
+
+      // Digitando...
+      var typingId = 'typing-' + Date.now();
+      var typingHtml = '<div id="' + typingId + '" class="flex gap-2">' +
+        '<div class="w-7 h-7 rounded-full bg-marca-900 flex items-center justify-center flex-shrink-0">' +
+        '<svg class="w-3.5 h-3.5 text-marca-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>' +
+        '</div>' +
+        '<div class="bg-white rounded-2xl rounded-tl-md px-3.5 py-3 shadow-sm border border-marca-900/5">' +
+        '<div class="flex gap-1"><div class="w-1.5 h-1.5 bg-marca-900/30 rounded-full animate-bounce" style="animation-delay:0ms"></div><div class="w-1.5 h-1.5 bg-marca-900/30 rounded-full animate-bounce" style="animation-delay:150ms"></div><div class="w-1.5 h-1.5 bg-marca-900/30 rounded-full animate-bounce" style="animation-delay:300ms"></div></div>' +
+        '</div></div>';
+      container.insertAdjacentHTML('beforeend', typingHtml);
+      container.scrollTop = container.scrollHeight;
+
+      // Resposta automática
+      setTimeout(function() {
+        document.getElementById(typingId).remove();
+        var resposta = suporte_e_ajuda_buscarResposta(texto);
+        var botMsg = '<div class="flex gap-2">' +
+          '<div class="w-7 h-7 rounded-full bg-marca-900 flex items-center justify-center flex-shrink-0 mt-0.5">' +
+          '<svg class="w-3.5 h-3.5 text-marca-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>' +
+          '</div>' +
+          '<div class="bg-white rounded-2xl rounded-tl-md px-3.5 py-2.5 max-w-[82%] shadow-sm border border-marca-900/5">' +
+          '<p class="text-xs text-marca-900 font-body leading-relaxed">' + resposta + '</p>' +
+          '</div>' +
+          '</div>';
+        container.insertAdjacentHTML('beforeend', botMsg);
+        container.scrollTop = container.scrollHeight;
+      }, 1200);
+    };
+
+    window.suporte_e_ajuda_buscarResposta = function(texto) {
+      var lower = texto.toLowerCase();
+      if (/senha|esqueci|login|acesso|entrar/.test(lower)) return 'Para recuperar sua senha, vá para a tela de login e clique em "Esqueci minha senha". Você receberá um link de redefinição no e-mail cadastrado em até 5 minutos.';
+      if (/relat|pesquis|busca|encontr/.test(lower)) return 'Use a tela "Pesquisar Relatórios" com palavras-chave como setor, data ou nome. Os filtros ajudam a refinar os resultados. Precisa de algo mais específico?';
+      if (/curso|palestra|aula|video|certific/.test(lower)) return 'Acesse a tela "Cursos e Palestras" para ver o catálogo disponível. Após conclusão com aprovação, o certificado é emitido automaticamente.';
+      if (/pag|boleto|assinatura|cobran|nota fiscal/.test(lower)) return 'Gerencie sua assinatura na tela "Painel Inicial" na seção "Assinatura". Para questões de pagamento, selecione "Falar com especialista".';
+      if (/erro|bug|lento|não funciona|problema|trava/.test(lower)) return 'Lamento o inconveniente. Tente fechar e reabrir o app. Verifique sua conexão. Se o problema persistir, clique em "Falar com Especialista" para atendimento prioritário.';
+      if (/humano|pessoa|atendente|falar|telefone|telef/.test(lower)) return 'Clique no ícone de telefone no canto superior direito ou no botão "Falar com um Especialista" abaixo para ser direcionado ao atendimento humano.';
+      if (/obrig|valeu|brigad|resolv/.test(lower)) return 'Por nada! Estamos sempre à disposição. Se precisar de mais alguma coisa, é só perguntar. Tenha um ótimo dia!';
+      return 'Obrigado pelo contato! Sua mensagem foi recebida. Para atendimento mais específico, clique em "Falar com um Especialista" ou selecione uma das perguntas frequentes acima.';
+    };
+
+    window.suporte_e_ajuda_resolveu = function() {
+      fecharModal();
+      toast('Ótimo! Ficamos felizes em ajudar.', 'ok');
+    };
+
+    window.suporte_e_ajuda_abrirContato = function() {
+      var html = '<div class="space-y-4">' +
+        '<p class="text-xs text-marca-900/60 font-body">Preencha o formulário abaixo e nossa equipe entrará em contato em até 1 dia útil.</p>' +
+        '<div>' +
+        '<label class="text-[11px] font-semibold text-marca-900 font-display block mb-1">Assunto</label>' +
+        '<select id="contato-assunto" class="w-full bg-marca-50 border border-marca-900/10 rounded-xl px-3 py-2.5 text-xs text-marca-900 font-body focus:outline-none focus:border-marca-900/30">' +
+        '<option value="">Selecione um assunto</option>' +
+        '<option>Dúvida sobre relatórios</option>' +
+        '<option>Dúvida sobre cursos</option>' +
+        '<option>Problema de acesso</option>' +
+        '<option>Solicitação de relatório personalizado</option>' +
+        '<option>Problema técnico</option>' +
+        '<option>Outro</option>' +
+        '</select>' +
+        '</div>' +
+        '<div>' +
+        '<label class="text-[11px] font-semibold text-marca-900 font-display block mb-1">Sua mensagem</label>' +
+        '<textarea id="contato-mensagem" rows="4" class="w-full bg-marca-50 border border-marca-900/10 rounded-xl px-3 py-2.5 text-xs text-marca-900 font-body focus:outline-none focus:border-marca-900/30 resize-none" placeholder="Descreva sua dúvida ou solicitação..."></textarea>' +
+        '</div>' +
+        '<div>' +
+        '<label class="text-[11px] font-semibold text-marca-900 font-display block mb-1">Telefone para contato</label>' +
+        '<input id="contato-telefone" type="tel" placeholder="(11) 99999-9999" class="w-full bg-marca-50 border border-marca-900/10 rounded-xl px-3 py-2.5 text-xs text-marca-900 font-body focus:outline-none focus:border-marca-900/30" oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/(\d{2})(\d{5})(\d{4})/,'($1) $2-$3')">' +
+        '</div>' +
+        '<button onclick="suporte_e_ajuda_enviarContato()" class="w-full bg-marca-900 text-marca-100 rounded-xl py-3 text-sm font-semibold font-display active:scale-[0.97] transition-all hover:bg-marca-900/90">Enviar Mensagem</button>' +
+        '</div>';
+      abrirModal(html, 'Contato com Especialista');
+    };
+
+    window.suporte_e_ajuda_enviarContato = function() {
+      var assunto = document.getElementById('contato-assunto').value;
+      var mensagem = document.getElementById('contato-mensagem').value.trim();
+      if (!assunto) { toast('Selecione um assunto.', 'erro'); return; }
+      if (!mensagem) { toast('Descreva sua mensagem.', 'erro'); return; }
+      fecharModal();
+      toast('Mensagem enviada! Retornaremos em até 1 dia útil.', 'ok');
+    };
+  })();
+</script>
+
     <!-- TELAS -->
     </main>
 
