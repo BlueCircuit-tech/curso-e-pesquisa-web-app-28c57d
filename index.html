@@ -326,6 +326,119 @@
   </script>
 </section>
 
+    <section data-tela="visualizar-relatorio" class="hidden">
+  <style>
+    .vr-card{background:#FAFAFA;border:1px solid rgba(212,175,55,.15);border-radius:12px;padding:14px 16px}
+    .vr-kpi-num{font-family:Georgia,serif;font-size:20px;font-weight:700;color:#D4AF37}
+    .vr-kpi-label{font-size:11px;color:#888;margin-top:4px;letter-spacing:.3px;text-transform:uppercase}
+    .vr-btn{display:flex;align-items:center;gap:10px;width:100%;padding:13px 16px;border-radius:10px;border:1px solid rgba(212,175,55,.25);background:transparent;color:#FAFAFA;font-size:14px;font-weight:600;cursor:pointer}
+    .vr-btn:active{background:rgba(212,175,55,.12)}
+    .vr-btn-primary{background:#D4AF37;color:#0A0A0A;border-color:#D4AF37}
+    .vr-btn-primary:active{background:#b8982e}
+    .vr-row{border-bottom:1px solid rgba(212,175,55,.1);padding:11px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+    .vr-row:last-child{border-bottom:none}
+    .vr-detail{display:none;padding:10px 0 6px;border-top:1px solid rgba(212,175,55,.08);margin-top:10px;font-size:12px;color:#999;line-height:1.6}
+    .vr-detail.open{display:block}
+    .vr-toast{position:absolute;left:16px;right:16px;bottom:20px;background:#D4AF37;color:#0A0A0A;padding:12px 16px;border-radius:8px;font-size:13px;font-weight:600;text-align:center;z-index:50;opacity:0;transition:opacity .3s;pointer-events:none}
+    .vr-toast.show{opacity:1}
+  </style>
+  <div class="relative px-5 pt-5 pb-4">
+    <div class="flex items-center gap-3 mb-5 cursor-pointer" onclick="mostrarTela('painel-inicial')">
+      <svg class="w-5 h-5 text-[#D4AF37]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      <span class="text-[#FAFAFA] text-sm font-semibold">Relatórios</span>
+    </div>
+    <div class="mb-5">
+      <h1 class="text-[#FAFAFA] text-lg font-bold leading-tight">Pesquisa de Mercado Digital — Tecnologia 2025</h1>
+      <p class="text-xs text-[#888] mt-2">15 de Janeiro de 2025 • Dr. Marcelo Andrade • Economia e Mercado</p>
+    </div>
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <div class="vr-card"><div class="vr-kpi-num">2.847</div><div class="vr-kpi-label">Respondentes</div></div>
+      <div class="vr-card"><div class="vr-kpi-num">12</div><div class="vr-kpi-label">Estados</div></div>
+      <div class="vr-card"><div class="vr-kpi-num">87%</div><div class="vr-kpi-label">Confiança</div></div>
+      <div class="vr-card"><div class="vr-kpi-num">3,2%</div><div class="vr-kpi-label">Crescimento Médio</div></div>
+    </div>
+    <div class="vr-card mb-5">
+      <div class="flex items-center justify-between cursor-pointer mb-3" onclick="visualizar_relatorio_toggleChart()">
+        <h3 class="text-[#0A0A0A] text-sm font-bold">Adoção Digital por Região</h3>
+        <svg id="chartToggleIcon" class="w-4 h-4 text-[#D4AF37] transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div id="chartBody" class="overflow-hidden transition-all duration-300" style="max-height:220px">
+        <p class="text-[10px] text-[#888] mb-2 uppercase tracking-wide">Percentual de Adoção</p>
+        <div class="flex items-end justify-between gap-2" style="height:140px">
+          <div class="flex-1 flex flex-col items-center gap-1"><span class="chart-val text-[10px] text-[#D4AF37] font-bold hidden">42%</span><div class="w-full rounded-t" style="height:42%;background:#D4AF37"></div><span class="text-[9px] text-[#888]">Norte</span></div>
+          <div class="flex-1 flex flex-col items-center gap-1"><span class="chart-val text-[10px] text-[#D4AF37] font-bold hidden">58%</span><div class="w-full rounded-t" style="height:58%;background:#D4AF37"></div><span class="text-[9px] text-[#888]">Nordeste</span></div>
+          <div class="flex-1 flex flex-col items-center gap-1"><span class="chart-val text-[10px] text-[#D4AF37] font-bold hidden">71%</span><div class="w-full rounded-t" style="height:71%;background:#D4AF37"></div><span class="text-[9px] text-[#888]">Centro-O.</span></div>
+          <div class="flex-1 flex flex-col items-center gap-1"><span class="chart-val text-[10px] text-[#D4AF37] font-bold hidden">89%</span><div class="w-full rounded-t" style="height:89%;background:#D4AF37"></div><span class="text-[9px] text-[#888]">Sudeste</span></div>
+          <div class="flex-1 flex flex-col items-center gap-1"><span class="chart-val text-[10px] text-[#D4AF37] font-bold hidden">76%</span><div class="w-full rounded-t" style="height:76%;background:#D4AF37"></div><span class="text-[9px] text-[#888]">Sul</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="vr-card mb-5">
+      <h3 class="text-[#0A0A0A] text-sm font-bold mb-3">Indicadores Mensais</h3>
+      <div class="vr-row" onclick="visualizar_relatorio_toggleRow(this)"><div><div class="text-[#0A0A0A] font-semibold text-sm">Janeiro</div><div class="text-xs text-[#888]">Taxa de adoção: 67,2%</div></div><span class="text-xs font-bold text-[#D4AF37]">+3,2%</span></div><div class="vr-detail"><div>Usuários ativos: 1.234 • Novos cadastros: 89</div><div>Taxa de retenção: 91%</div></div>
+      <div class="vr-row" onclick="visualizar_relatorio_toggleRow(this)"><div><div class="text-[#0A0A0A] font-semibold text-sm">Fevereiro</div><div class="text-xs text-[#888]">Taxa de adoção: 69,4%</div></div><span class="text-xs font-bold text-[#D4AF37]">+4,1%</span></div><div class="vr-detail"><div>Usuários ativos: 1.456 • Novos cadastros: 112</div><div>Taxa de retenção: 93%</div></div>
+      <div class="vr-row" onclick="visualizar_relatorio_toggleRow(this)"><div><div class="text-[#0A0A0A] font-semibold text-sm">Março</div><div class="text-xs text-[#888]">Taxa de adoção: 71,3%</div></div><span class="text-xs font-bold text-[#D4AF37]">+2,8%</span></div><div class="vr-detail"><div>Usuários ativos: 1.678 • Novos cadastros: 95</div><div>Taxa de retenção: 90%</div></div>
+      <div class="vr-row" onclick="visualizar_relatorio_toggleRow(this)"><div><div class="text-[#0A0A0A] font-semibold text-sm">Abril</div><div class="text-xs text-[#888]">Taxa de adoção: 75,2%</div></div><span class="text-xs font-bold text-[#D4AF37]">+5,5%</span></div><div class="vr-detail"><div>Usuários ativos: 1.890 • Novos cadastros: 156</div><div>Taxa de retenção: 94%</div></div>
+      <div class="vr-row" onclick="visualizar_relatorio_toggleRow(this)"><div><div class="text-[#0A0A0A] font-semibold text-sm">Maio</div><div class="text-xs text-[#888]">Taxa de adoção: 79,9%</div></div><span class="text-xs font-bold text-[#D4AF37]">+6,2%</span></div><div class="vr-detail"><div>Usuários ativos: 2.100 • Novos cadastros: 198</div><div>Taxa de retenção: 95%</div></div>
+    </div>
+    <div class="flex flex-col gap-3 mb-6">
+      <button class="vr-btn vr-btn-primary" onclick="visualizar_relatorio_exportPDF()">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+        Exportar PDF
+      </button>
+      <div class="flex gap-3">
+        <button class="vr-btn flex-1" onclick="visualizar_relatorio_share()">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="18.5" stroke="currentColor" stroke-width="2"/><line x1="15.4" y1="5.5" x2="8.6" y2="10.5" stroke="currentColor" stroke-width="2"/></svg>
+          Compartilhar
+        </button>
+        <button class="vr-btn flex-1" onclick="visualizar_relatorio_openSupport()">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Suporte
+        </button>
+      </div>
+    </div>
+    <div id="vrToast" class="vr-toast"></div>
+  </div>
+  <script>
+    function visualizar_relatorio_toggleChart() {
+      var body = document.getElementById('chartBody');
+      var icon = document.getElementById('chartToggleIcon');
+      var vals = document.querySelectorAll('.chart-val');
+      var isOpen = body.style.maxHeight !== '0px';
+      if (isOpen) {
+        body.style.maxHeight = '0px';
+        icon.style.transform = 'rotate(0deg)';
+        vals.forEach(function(v) { v.classList.add('hidden'); });
+      } else {
+        body.style.maxHeight = '300px';
+        icon.style.transform = 'rotate(180deg)';
+        vals.forEach(function(v) { v.classList.remove('hidden'); });
+      }
+    }
+    function visualizar_relatorio_toggleRow(row) {
+      var detail = row.nextElementSibling;
+      if (detail && detail.classList.contains('vr-detail')) {
+        detail.classList.toggle('open');
+      }
+    }
+    function visualizar_relatorio_exportPDF() {
+      var t = document.getElementById('vrToast');
+      t.textContent = 'Gerando PDF...';
+      t.classList.add('show');
+      setTimeout(function() { t.textContent = 'PDF exportado com sucesso'; setTimeout(function() { t.classList.remove('show'); }, 2200); }, 1400);
+    }
+    function visualizar_relatorio_share() {
+      var t = document.getElementById('vrToast');
+      t.textContent = 'Link copiado para a área de transferência';
+      t.classList.add('show');
+      setTimeout(function() { t.classList.remove('show'); }, 2500);
+    }
+    function visualizar_relatorio_openSupport() {
+      mostrarTela('suporte-e-ajuda');
+    }
+  </script>
+</section>
+
     <!-- TELAS -->
     </main>
 
