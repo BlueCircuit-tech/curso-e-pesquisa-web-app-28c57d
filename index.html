@@ -207,6 +207,125 @@
   </script>
 </section>
 
+    <section data-tela="pesquisar-relatorios" class="hidden">
+  <div class="px-4 pt-4 pb-2">
+    <div class="relative">
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" style="color:#6B6B6B" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="pesq-input" type="text" placeholder="Buscar relatórios..." class="w-full pl-10 pr-10 py-3 rounded-lg text-sm focus:outline-none focus:ring-2" style="background:#1A1A1A;color:#FAFAFA;--tw-ring-color:#D4AF37" oninput="pesquisar_relatorios_filtrar()"/>
+      <button onclick="pesquisar_relatorios_toggleFiltros()" class="absolute right-3 top-1/2 -translate-y-1/2 p-1" aria-label="Filtros">
+        <svg class="w-5 h-5" style="color:#D4AF37" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M3 4h18M6 12h12M10 20h4"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="pesq-filtros-avancados" class="hidden px-4 pb-3">
+    <div class="rounded-lg p-3" style="background:#1A1A1A">
+      <p class="text-xs font-semibold mb-2" style="color:#D4AF37">Período</p>
+      <div class="flex flex-wrap gap-2 mb-3" id="pesq-filtros-periodo"></div>
+      <p class="text-xs font-semibold mb-2" style="color:#D4AF37">Categoria</p>
+      <div class="flex flex-wrap gap-2" id="pesq-filtros-categoria"></div>
+    </div>
+  </div>
+  <div class="px-4 pb-2 flex items-center justify-between">
+    <p class="text-xs" style="color:#888888"><span id="pesq-contador">6</span> relatórios encontrados</p>
+    <button onclick="pesquisar_relatorios_limparFiltros()" class="text-xs font-medium" style="color:#D4AF37">Limpar filtros</button>
+  </div>
+  <div id="pesq-lista" class="px-4 pb-24 space-y-3"></div>
+  <div id="pesq-vazio" class="hidden px-4 pb-24 text-center py-12">
+    <svg class="w-16 h-16 mx-auto mb-3" style="color:#333333" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><line x1="8" y1="8" x2="16" y2="8" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="12" x2="16" y2="12" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="16" x2="12" y2="16" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <p class="text-sm" style="color:#666666">Nenhum relatório encontrado</p>
+    <p class="text-xs mt-1" style="color:#555555">Tente outra busca ou ajuste os filtros</p>
+  </div>
+  <script>
+    const RELATORIOS = [
+      {id:1,titulo:'Relatório de Mercado Financeiro Q1 2025',categoria:'Mercado Financeiro',periodo:'2025',data:'15/01/2025',autor:'Dr. Ricardo Mendes',paginas:48,resumo:'Análise completa dos indicadores financeiros do primeiro trimestre de 2025, incluindo projeções para os próximos meses.'},
+      {id:2,titulo:'Pesquisa de Satisfação do Cliente 2024',categoria:'Pesquisa Social',periodo:'2024',data:'22/11/2024',autor:'Ana Beatriz Costa',paginas:32,resumo:'Resultados da pesquisa anual de satisfação com 1.200 respondentes, abrangendo atendimento, qualidade e valor percebido.'},
+      {id:3,titulo:'Análise Econômica Trimestral — Out/Dez 2024',categoria:'Economia',periodo:'2024',data:'05/12/2024',autor:'Prof. Carlos Eduardo Lima',paginas:56,resumo:'Panorama econômico do último trimestre de 2024 com foco em inflação, PIB e políticas monetárias.'},
+      {id:4,titulo:'Relatório de Sustentabilidade Corporativa',categoria:'Meio Ambiente',periodo:'2025',data:'10/02/2025',autor:'Dra. Fernanda Almeida',paginas:24,resumo:'Indicadores ESG, metas de redução de carbono e iniciativas de responsabilidade social corporativa.'},
+      {id:5,titulo:'Pesquisa de Tendências Tecnológicas',categoria:'Tecnologia',periodo:'2025',data:'28/01/2025',autor:'Eng. Paulo Henrique Souza',paginas:40,resumo:'Levantamento das principais tendências em IA, computação em nuvem e transformação digital para 2025.'},
+      {id:6,titulo:'Relatório de Investimentos Imobiliários',categoria:'Mercado Imobiliário',periodo:'2024',data:'18/10/2024',autor:'Dra. Mariana Oliveira',paginas:36,resumo:'Análise do mercado imobiliário comercial e residencial nas principais capitais brasileiras.'}
+    ];
+    const PERIODOS = ['2025','2024','2023'];
+    const CATEGORIAS = [...new Set(RELATORIOS.map(r=>r.categoria))];
+    let filtroPeriodo = null;
+    let filtroCategoria = null;
+    function pesquisar_relatorios_init(){
+      const pp = document.getElementById('pesq-filtros-periodo');
+      pp.innerHTML = PERIODOS.map(p=>`<button onclick="pesquisar_relatorios_setPeriodo('${p}')" data-periodo="${p}" class="pesq-chip px-3 py-1 rounded-full text-xs font-medium border" style="border-color:#333333;color:#AAAAAA">${p}</button>`).join('');
+      const cc = document.getElementById('pesq-filtros-categoria');
+      cc.innerHTML = CATEGORIAS.map(c=>`<button onclick="pesquisar_relatorios_setCategoria('${c}')" data-categoria="${c}" class="pesq-chip px-3 py-1 rounded-full text-xs font-medium border truncate max-w-full" style="border-color:#333333;color:#AAAAAA">${c}</button>`).join('');
+      pesquisar_relatorios_filtrar();
+    }
+    function pesquisar_relatorios_filtrar(){
+      const q = document.getElementById('pesq-input').value.toLowerCase().trim();
+      const resultados = RELATORIOS.filter(r=>{
+        const matchQ = !q || r.titulo.toLowerCase().includes(q) || r.categoria.toLowerCase().includes(q) || r.autor.toLowerCase().includes(q);
+        const matchP = !filtroPeriodo || r.periodo === filtroPeriodo;
+        const matchC = !filtroCategoria || r.categoria === filtroCategoria;
+        return matchQ && matchP && matchC;
+      });
+      document.getElementById('pesq-contador').textContent = resultados.length;
+      const lista = document.getElementById('pesq-lista');
+      const vazio = document.getElementById('pesq-vazio');
+      if(resultados.length===0){lista.classList.add('hidden');vazio.classList.remove('hidden');}
+      else{lista.classList.remove('hidden');vazio.classList.add('hidden');}
+      lista.innerHTML = resultados.map(r=>`
+        <div onclick="pesquisar_relatorios_abrir(${r.id})" class="rounded-lg p-4 cursor-pointer active:scale-[0.98] transition-transform" style="background:#141414;border:1px solid #1F1F1F">
+          <div class="flex items-start gap-3">
+            <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(212,175,55,0.1)">
+              <svg class="w-5 h-5" style="color:#D4AF37" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <h3 class="text-sm font-semibold leading-tight mb-1 truncate" style="color:#FAFAFA">${r.titulo}</h3>
+              <p class="text-xs mb-2" style="color:#888888">${r.categoria} · ${r.data}</p>
+              <div class="flex items-center gap-2">
+                <span class="text-xs px-2 py-0.5 rounded" style="background:#1A1A1A;color:#D4AF37">${r.paginas} págs</span>
+                <span class="text-xs" style="color:#666666">${r.autor}</span>
+              </div>
+            </div>
+            <svg class="w-5 h-5 flex-shrink-0" style="color:#D4AF37" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          </div>
+        </div>`).join('');
+    }
+    function pesquisar_relatorios_toggleFiltros(){
+      const el = document.getElementById('pesq-filtros-avancados');
+      el.classList.toggle('hidden');
+    }
+    function pesquisar_relatorios_setPeriodo(p){
+      filtroPeriodo = filtroPeriodo===p?null:p;
+      document.querySelectorAll('[data-periodo]').forEach(b=>{
+        const ativo = b.dataset.periodo===filtroPeriodo;
+        b.style.background = ativo?'#D4AF37':'transparent';
+        b.style.color = ativo?'#0A0A0A':'#AAAAAA';
+        b.style.borderColor = ativo?'#D4AF37':'#333333';
+      });
+      pesquisar_relatorios_filtrar();
+    }
+    function pesquisar_relatorios_setCategoria(c){
+      filtroCategoria = filtroCategoria===c?null:c;
+      document.querySelectorAll('[data-categoria]').forEach(b=>{
+        const ativo = b.dataset.categoria===filtroCategoria;
+        b.style.background = ativo?'#D4AF37':'transparent';
+        b.style.color = ativo?'#0A0A0A':'#AAAAAA';
+        b.style.borderColor = ativo?'#D4AF37':'#333333';
+      });
+      pesquisar_relatorios_filtrar();
+    }
+    function pesquisar_relatorios_limparFiltros(){
+      filtroPeriodo=null;filtroCategoria=null;
+      document.getElementById('pesq-input').value='';
+      document.querySelectorAll('[data-periodo],[data-categoria]').forEach(b=>{
+        b.style.background='transparent';b.style.color='#AAAAAA';b.style.borderColor='#333333';
+      });
+      pesquisar_relatorios_filtrar();
+    }
+    function pesquisar_relatorios_abrir(id){
+      const r = RELATORIOS.find(x=>x.id===id);
+      if(r){sessionStorage.setItem('relatorioSelecionado',JSON.stringify(r));mostrarTela('visualizar-relatorio');}
+    }
+    pesquisar_relatorios_init();
+  </script>
+</section>
+
     <!-- TELAS -->
     </main>
 
