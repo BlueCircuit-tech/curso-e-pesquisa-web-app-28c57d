@@ -439,6 +439,209 @@
   </script>
 </section>
 
+    <section data-tela="cursos-e-palestras" class="hidden">
+  <style>
+    .cep-scroll-x { display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; padding-bottom:4px; }
+    .cep-scroll-x::-webkit-scrollbar { display:none; }
+    .cep-chip { flex-shrink:0; padding:7px 16px; border-radius:9999px; font-size:13px; font-weight:600; cursor:pointer; border:1.5px solid #D4AF37; background:transparent; color:#D4AF37; transition:all .2s; }
+    .cep-chip.active { background:#D4AF37; color:#0A0A0A; }
+    .cep-card { background:#111; border:1px solid #1f1f1f; border-radius:12px; overflow:hidden; cursor:pointer; transition:transform .15s, border-color .15s; position:relative; }
+    .cep-card:hover { transform:translateY(-2px); border-color:#D4AF37; }
+    .cep-card.wide { grid-column:1/-1; display:grid; grid-template-columns:200px 1fr; }
+    .cep-thumb { position:relative; width:100%; aspect-ratio:16/9; background:#1a1a1a; display:flex; align-items:center; justify-content:center; }
+    .cep-thumb svg { opacity:.35; }
+    .cep-badge { position:absolute; top:8px; left:8px; background:#D4AF37; color:#0A0A0A; font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; text-transform:uppercase; letter-spacing:.5px; }
+    .cep-dur { position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,.78); color:#FAFAFA; font-size:11px; padding:2px 7px; border-radius:4px; font-weight:500; }
+    .cep-body { padding:12px 14px; }
+    .cep-body h3 { color:#FAFAFA; font-size:14px; font-weight:700; margin-bottom:4px; line-height:1.3; }
+    .cep-body p { color:#666; font-size:12px; margin-bottom:10px; }
+    .cep-progress { height:3px; background:#1f1f1f; border-radius:2px; overflow:hidden; }
+    .cep-progress > div { height:100%; background:#D4AF37; border-radius:2px; }
+    .cep-fav { position:absolute; top:8px; right:8px; width:30px; height:30px; border-radius:50%; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; padding:0; transition:all .15s; }
+    .cep-fav:hover { background:rgba(0,0,0,.75); }
+    .cep-fav.on svg { fill:#D4AF37; stroke:#D4AF37; }
+    .cep-play { display:inline-flex; align-items:center; gap:5px; background:#D4AF37; color:#0A0A0A; font-size:12px; font-weight:700; padding:6px 14px; border-radius:6px; border:none; cursor:pointer; }
+    .cep-back { background:none; border:none; color:#D4AF37; cursor:pointer; padding:4px; display:inline-flex; align-items:center; }
+  </style>
+
+  <!-- LISTA -->
+  <div id="cep-lista">
+    <header class="px-5 pt-6 pb-3">
+      <h1 class="text-[#FAFAFA] text-xl font-bold leading-tight">Cursos &amp; Palestras</h1>
+      <p class="text-[#666] text-xs mt-1">Capacite-se com nosso acervo</p>
+    </header>
+
+    <div class="px-5 mb-4">
+      <div class="relative">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#555]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="cep-search" type="text" placeholder="Buscar curso ou palestra..." class="w-full bg-[#111] border border-[#1f1f1f] rounded-lg pl-10 pr-4 py-2.5 text-[#FAFAFA] text-sm placeholder-[#555] outline-none focus:border-[#D4AF37] transition-colors" oninput="cursos_e_palestras_buscar(this.value)">
+      </div>
+    </div>
+
+    <div id="cep-filtros" class="px-5 mb-4">
+      <div class="cep-scroll-x" id="cep-chips"></div>
+    </div>
+
+    <div class="px-5 mb-3 flex items-center justify-between">
+      <span id="cep-contador" class="text-[#666] text-xs"></span>
+      <button onclick="cursos_e_palestras_ordenar()" class="text-[#D4AF37] text-xs font-semibold flex items-center gap-1">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M7 12h10M10 18h4"/></svg>
+        Ordenar
+      </button>
+    </div>
+
+    <div id="cep-grid" class="px-5 grid grid-cols-1 gap-3 pb-6"></div>
+  </div>
+
+  <!-- DETALHE -->
+  <div id="cep-detalhe" class="hidden">
+    <div class="relative">
+      <div id="cep-det-thumb" class="w-full aspect-video bg-[#111] flex items-center justify-center">
+        <svg class="w-12 h-12 text-[#333]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+      <button onclick="mostrarTela('cursos-e-palestras')" class="cep-back absolute top-4 left-4 w-9 h-9 rounded-full bg-black/60 flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button id="cep-det-fav" onclick="cursos_e_palestras_favoritar()" class="cep-fav absolute top-4 right-4">
+        <svg class="w-4 h-4" fill="none" stroke="#FAFAFA" stroke-width="2" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+      </button>
+    </div>
+    <div class="px-5 pt-5 pb-24">
+      <span id="cep-det-tema" class="text-[#D4AF37] text-[10px] font-bold uppercase tracking-wider"></span>
+      <h2 id="cep-det-titulo" class="text-[#FAFAFA] text-lg font-bold mt-1 leading-snug"></h2>
+      <p id="cep-det-desc" class="text-[#666] text-sm mt-2 leading-relaxed"></p>
+      <div id="cep-det-meta" class="flex flex-wrap gap-4 mt-4 text-xs text-[#888]"></div>
+      <div id="cep-det-progresso" class="hidden mt-5">
+        <div class="flex justify-between text-xs mb-1.5"><span class="text-[#888]">Progresso</span><span id="cep-det-pct" class="text-[#D4AF37] font-semibold"></span></div>
+        <div class="cep-progress"><div id="cep-det-bar" style="width:0%"></div></div>
+      </div>
+      <div id="cep-det-aulas" class="mt-5">
+        <h3 class="text-[#FAFAFA] text-sm font-bold mb-3">Aulas</h3>
+        <div id="cep-det-lista-aulas" class="space-y-2"></div>
+      </div>
+    </div>
+    <div class="fixed bottom-0 left-0 right-0 bg-[#0A0A0A] border-t border-[#1f1f1f] p-4 z-50">
+      <button onclick="mostrarTela('player-do-curso')" class="cep-play w-full justify-center py-3 text-sm rounded-lg">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Assistir Agora
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const cursos_e_palestras_dados = [
+      { id:1, titulo:"Inteligência Artificial na Gestão Pública", tema:"Tecnologia", duracao:"3h 20min", data:"2025-04-15", progresso:65, tipo:"curso", thumb:"#D4AF37", palestrante:"Dr. Ricardo Mendes",
+        desc:"Curso completo sobre aplicação de IA em processos governamentais, automação de serviços públicos e tomada de decisão baseada em dados.", aulas:["Fundamentos de IA no setor público","Machine Learning aplicado a serviços","Ética e governança de dados","Estudos de caso reais"] },
+      { id:2, titulo:"Mesa Redonda: Economia Digital 2025", tema:"Economia", duracao:"1h 45min", data:"2025-05-02", progresso:0, tipo:"palestra", thumb:"#D4AF37", palestrante:"Painel com 5 especialistas",
+        desc:"Discussão aprofundada sobre as tendências da economia digital brasileira, inclusão financeira e regulação de fintechs.", aulas:["Abertura e apresentação","O cenário macroeconômico","Inovação e startups","Regulação e futuro","Perguntas do público"] },
+      { id:3, titulo:"Análise de Mercado Financeiro", tema:"Economia", duracao:"2h 15min", data:"2025-03-20", progresso:40, tipo:"curso", thumb:"#D4AF37", palestrante:"Ana Beatriz Costa, CFA",
+        desc:"Aprenda a analisar tendências de mercado, interpretar indicadores econômicos e construir relatórios de investimento.", aulas:["Introdução à análise fundamentalista","Indicadores econômicos essenciais","Análise técnica avançada","Relatórios de investimento"] },
+      { id:4, titulo:"Transformação Digital nas Organizações", tema:"Tecnologia", duracao:"1h 50min", data:"2025-05-08", progresso:0, tipo:"palestra", thumb:"#D4AF37", palestrante:"Prof. Carlos Eduardo Lima",
+        desc:"Como empresas tradicionais podem se reinventar digitalmente. Casos de sucesso, armadilhas comuns e frameworks de transformação.", aulas:["O desafio da transformação","Casos de sucesso","Frameworks e metodologias","Lições aprendidas"] },
+      { id:5, titulo:"Gestão de Projetos com Metodologias Ágeis", tema:"Gestão", duracao:"2h 45min", data:"2025-02-10", progresso:100, tipo:"curso", thumb:"#D4AF37", palestrante:"Mariana Oliveira, PMP",
+        desc:"Do Scrum ao Kanban, domine as principais metodologias ágeis e aplique em projetos de médio e grande porte.", aulas:["Scrum: papéis e cerimônias","Kanban e fluxo contínuo","SAFe para projetos grandes","Métricas e monitoramento"] },
+      { id:6, titulo:"Seminário: Sustentabilidade nos Negócios", tema:"Sustentabilidade", duracao:"2h 00min", data:"2025-04-28", progresso:15, tipo:"palestra", thumb:"#D4AF37", palestrante:"Painel multi-setorial",
+        desc:"Seminário reunindo líderes de diferentes setores para discutir ESG, economia circular e o papel das empresas na transição sustentável.", aulas:["Painel de abertura","ESG na prática","Economia circular","Compromissos e metas","Encerramento"] }
+    ];
+
+    const temas = ["Todos","Tecnologia","Economia","Gestão","Sustentabilidade"];
+    let cursoAtual = null, favs = new Set(), filtroTema = "Todos", ordemAsc = false;
+
+    function cursos_e_palestras_init() {
+      const chips = document.getElementById('cep-chips');
+      temas.forEach(t => {
+        const b = document.createElement('button');
+        b.className = 'cep-chip' + (t === 'Todos' ? ' active' : '');
+        b.textContent = t;
+        b.onclick = () => { filtroTema = t; chips.querySelectorAll('.cep-chip').forEach(c => c.classList.remove('active')); b.classList.add('active'); cursos_e_palestras_render(); };
+        chips.appendChild(b);
+      });
+      cursos_e_palestras_render();
+    }
+
+    function cursos_e_palestras_render(q) {
+      q = q || '';
+      let lista = [...cursos_e_palestras_dados];
+      if (filtroTema !== 'Todos') lista = lista.filter(c => c.tema === filtroTema);
+      if (q) { const lq = q.toLowerCase(); lista = lista.filter(c => c.titulo.toLowerCase().includes(lq) || c.tema.toLowerCase().includes(lq)); }
+      lista.sort((a, b) => ordemAsc ? a.data.localeCompare(b.data) : b.data.localeCompare(a.data));
+      document.getElementById('cep-contador').textContent = `${lista.length} ${lista.length === 1 ? 'conteúdo' : 'conteúdos'}${q ? ' encontrado(s)' : ''}`;
+      const grid = document.getElementById('cep-grid');
+      grid.innerHTML = '';
+      if (!lista.length) { grid.innerHTML = '<div class="text-center text-[#555] text-sm py-10 col-span-2">Nenhum resultado encontrado.</div>'; return; }
+      lista.forEach((c, i) => {
+        const card = document.createElement('div');
+        card.className = 'cep-card';
+        const isFav = favs.has(c.id);
+        const prog = c.progresso > 0 && c.progresso < 100;
+        const done = c.progresso === 100;
+        const badge = done ? '<span class="cep-badge">Concluído</span>' : c.tipo === 'palestra' ? '<span class="cep-badge">Palestra</span>' : i === 0 ? '<span class="cep-badge">Destaque</span>' : '';
+        card.innerHTML = `
+          <div class="cep-thumb" style="background:linear-gradient(135deg,#0A0A0A,#1a1a1a)">
+            <svg class="w-8 h-8" fill="none" stroke="${c.thumb}" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M10 9l5 3-5 3V9z"/></svg>
+            ${badge}<span class="cep-dur">${c.duracao}</span>
+            <button onclick="event.stopPropagation();cursos_e_palestras_fav(${c.id},this)" class="cep-fav${isFav?' on':''}"><svg class="w-3.5 h-3.5" fill="${isFav?'#D4AF37':'none'}" stroke="#FAFAFA" stroke-width="2" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+          </div>
+          <div class="cep-body">
+            <span class="text-[#D4AF37] text-[10px] font-semibold uppercase tracking-wider">${c.tema}</span>
+            <h3>${c.titulo}</h3>
+            <p>${c.palestrante}</p>
+            ${prog ? `<div class="cep-progress"><div style="width:${c.progresso}%"></div></div>` : ''}
+            <div class="flex items-center justify-between mt-2.5">
+              <span class="text-[#555] text-[11px]">${c.duracao}</span>
+              <button onclick="event.stopPropagation();cursos_e_palestras_abrir(${c.id})" class="cep-play text-[11px] py-1.5 px-3"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Assistir</button>
+            </div>
+          </div>`;
+        card.onclick = () => cursos_e_palestras_abrir(c.id);
+        grid.appendChild(card);
+      });
+    }
+
+    function cursos_e_palestras_buscar(q) { cursos_e_palestras_render(q); }
+    function cursos_e_palestras_ordenar() { ordemAsc = !ordemAsc; cursos_e_palestras_render(document.getElementById('cep-search').value); }
+    function cursos_e_palestras_fav(id, btn) {
+      if (favs.has(id)) { favs.delete(id); btn.classList.remove('on'); btn.querySelector('svg').setAttribute('fill','none'); }
+      else { favs.add(id); btn.classList.add('on'); btn.querySelector('svg').setAttribute('fill','#D4AF37'); }
+    }
+    function cursos_e_palestras_favoritar() {
+      if (!cursoAtual) return;
+      const btn = document.getElementById('cep-det-fav');
+      if (favs.has(cursoAtual.id)) { favs.delete(cursoAtual.id); btn.querySelector('svg').setAttribute('fill','none'); btn.querySelector('svg').setAttribute('stroke','#FAFAFA'); btn.classList.remove('on'); }
+      else { favs.add(cursoAtual.id); btn.querySelector('svg').setAttribute('fill','#D4AF37'); btn.querySelector('svg').setAttribute('stroke','#D4AF37'); btn.classList.add('on'); }
+    }
+
+    function cursos_e_palestras_abrir(id) {
+      const c = cursos_e_palestras_dados.find(x => x.id === id); if (!c) return;
+      cursoAtual = c;
+      document.getElementById('cep-lista').classList.add('hidden');
+      document.getElementById('cep-detalhe').classList.remove('hidden');
+      document.getElementById('cep-det-tema').textContent = c.tema;
+      document.getElementById('cep-det-titulo').textContent = c.titulo;
+      document.getElementById('cep-det-desc').textContent = c.desc;
+      document.getElementById('cep-det-thumb').innerHTML = `<svg class="w-14 h-14" fill="none" stroke="${c.thumb}" stroke-width="1" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M10 9l5 3-5 3V9z"/></svg>`;
+      document.getElementById('cep-det-meta').innerHTML = `<span>${c.duracao}</span><span>${c.palestrante}</span><span>${new Date(c.data+'T00:00:00').toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})}</span>`;
+      const pWrap = document.getElementById('cep-det-progresso'), pct = document.getElementById('cep-det-pct'), bar = document.getElementById('cep-det-bar');
+      if (c.progresso > 0) { pWrap.classList.remove('hidden'); pct.textContent = c.progresso + '%'; bar.style.width = c.progresso + '%'; }
+      else { pWrap.classList.add('hidden'); }
+      const isFav = favs.has(c.id), favBtn = document.getElementById('cep-det-fav');
+      if (isFav) { favBtn.classList.add('on'); favBtn.querySelector('svg').setAttribute('fill','#D4AF37'); favBtn.querySelector('svg').setAttribute('stroke','#D4AF37'); }
+      else { favBtn.classList.remove('on'); favBtn.querySelector('svg').setAttribute('fill','none'); favBtn.querySelector('svg').setAttribute('stroke','#FAFAFA'); }
+      const aulas = document.getElementById('cep-det-lista-aulas');
+      aulas.innerHTML = '';
+      c.aulas.forEach((a, i) => {
+        const done = c.progresso === 100;
+        const div = document.createElement('div');
+        div.className = 'flex items-center gap-3 p-3 bg-[#111] border border-[#1f1f1f] rounded-lg cursor-pointer hover:border-[#D4AF37] transition-colors';
+        div.onclick = () => mostrarTela('player-do-curso');
+        div.innerHTML = `<span class="w-7 h-7 rounded-full bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center text-[#888] text-xs font-bold flex-shrink-0">${i+1}</span><span class="text-[#FAFAFA] text-sm flex-1">${a}</span>${done ? '<svg class="w-4 h-4 text-[#D4AF37]" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>' : ''}`;
+        aulas.appendChild(div);
+      });
+    }
+
+    cursos_e_palestras_init();
+  </script>
+</section>
+
     <!-- TELAS -->
     </main>
 
