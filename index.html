@@ -642,6 +642,388 @@
   </script>
 </section>
 
+    <section data-tela="player-do-curso" class="hidden">
+    <div class="px-4 pt-2 pb-6 space-y-4">
+        <!-- Navegação breadcrumb -->
+        <div class="flex items-center gap-2 text-sm">
+            <button onclick="mostrarTela('cursos-e-palestras')" class="text-marca-400 hover:text-marca-300 transition-colors flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                Voltar
+            </button>
+            <span class="text-neutral-500">›</span>
+            <span class="text-neutral-400 text-xs">Cursos e Palestras</span>
+            <span class="text-neutral-500">›</span>
+            <span class="text-neutral-300 text-xs truncate max-w-[140px]">Economia Brasileira 2025</span>
+        </div>
+
+        <!-- Player de vídeo -->
+        <div class="relative bg-black rounded-xl overflow-hidden aspect-video shadow-2xl shadow-black/40 group">
+            <div id="video-thumbnail" class="absolute inset-0 flex items-center justify-center" style="background: linear-gradient(135deg, #1a1a1a 0%, #0A0A0A 50%, #1a1510 100%);">
+                <div class="absolute inset-0 opacity-10" style="background: radial-gradient(circle at 30% 40%, #D4AF37 0%, transparent 50%), radial-gradient(circle at 70% 60%, #D4AF37 0%, transparent 40%);"></div>
+                <div class="text-center z-10">
+                    <div class="w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center mb-3 mx-auto border border-white/10">
+                        <svg class="w-10 h-10 text-marca ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <p class="text-neutral-400 text-sm font-body">Clique para reproduzir</p>
+                </div>
+            </div>
+            <div id="video-overlay" class="absolute inset-0 bg-black/60 hidden items-center justify-center z-20 cursor-pointer" onclick="player_do_curso_togglePlay()">
+                <div id="play-icon-large" class="w-16 h-16 rounded-full bg-marca/90 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-marca-900 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+            </div>
+            <!-- Progress bar -->
+            <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/20 z-30">
+                <div id="video-progress" class="h-full bg-marca transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <!-- Botão flutuante de chat -->
+            <button onclick="mostrarTela('suporte-e-ajuda')" class="absolute top-3 right-3 z-30 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-marca hover:text-marca-900 transition-all active:scale-90" title="Tirar dúvida no suporte">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            </button>
+            <!-- Tempo -->
+            <div class="absolute bottom-3 left-3 z-30 text-white text-xs font-body bg-black/50 px-2 py-0.5 rounded">
+                <span id="video-current">00:00</span> / <span id="video-duration">24:30</span>
+            </div>
+        </div>
+
+        <!-- Informações do curso -->
+        <div class="space-y-1">
+            <h1 id="player-video-title" class="text-xl font-display font-bold text-neutral-100 leading-tight">Introdução à Economia Brasileira</h1>
+            <p class="text-sm text-neutral-400 font-body">Economia e Mercado • Aula 3 de 24</p>
+            <div class="flex items-center gap-3 pt-1">
+                <div class="flex -space-x-2">
+                    <div class="w-7 h-7 rounded-full bg-marca/20 border-2 border-marca-900 flex items-center justify-center text-xs font-bold text-marca-300">RC</div>
+                    <div class="w-7 h-7 rounded-full bg-neutral-700 border-2 border-marca-900 flex items-center justify-center text-xs font-bold text-neutral-300">MF</div>
+                </div>
+                <span class="text-xs text-neutral-500 font-body">Prof. Roberto Costa • Dra. Maria Fernandes</span>
+            </div>
+        </div>
+
+        <!-- Lista de módulos -->
+        <div class="space-y-2">
+            <div class="flex items-center justify-between">
+                <h2 class="text-base font-display font-bold text-neutral-200">Conteúdo do Curso</h2>
+                <span id="completed-count" class="text-xs text-neutral-500 font-body">2 de 8 concluídos</span>
+            </div>
+            <div id="modules-list" class="space-y-1.5 max-h-[340px] overflow-y-auto pr-1" style="scrollbar-width: thin; scrollbar-color: #D4AF37 #0A0A0A;">
+            </div>
+        </div>
+
+        <!-- Fórum de Perguntas -->
+        <div class="space-y-3">
+            <h2 class="text-base font-display font-bold text-neutral-200 flex items-center gap-2">
+                Perguntas e Respostas
+                <span class="text-xs text-neutral-500 font-body font-normal">(8)</span>
+            </h2>
+
+            <!-- Formulário de pergunta -->
+            <div class="bg-neutral-800/60 border border-neutral-700/50 rounded-xl p-3 space-y-2.5">
+                <label class="text-xs text-neutral-400 font-body block">Faça sua pergunta sobre esta aula</label>
+                <input id="qa-nome" type="text" placeholder="Seu nome" class="w-full bg-neutral-900/80 border border-neutral-700/50 rounded-lg px-3 py-2.5 text-sm text-neutral-200 font-body placeholder:text-neutral-600 focus:border-marca focus:ring-1 focus:ring-marca/30 outline-none transition-all">
+                <textarea id="qa-pergunta" rows="2" placeholder="Digite sua dúvida..." class="w-full bg-neutral-900/80 border border-neutral-700/50 rounded-lg px-3 py-2.5 text-sm text-neutral-200 font-body placeholder:text-neutral-600 focus:border-marca focus:ring-1 focus:ring-marca/30 outline-none transition-all resize-none"></textarea>
+                <button onclick="player_do_curso_enviarPergunta()" class="w-full bg-marca hover:bg-marca-300 active:scale-[0.98] text-marca-900 font-display font-bold text-sm py-2.5 rounded-lg transition-all">
+                    Enviar Pergunta
+                </button>
+            </div>
+
+            <!-- Lista de perguntas -->
+            <div id="qa-list" class="space-y-2.5"></div>
+
+            <!-- Estado vazio (escondido por padrão) -->
+            <div id="qa-empty" class="hidden text-center py-8 space-y-2">
+                <svg class="w-12 h-12 text-neutral-700 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <p class="text-sm text-neutral-500 font-body">Nenhuma pergunta ainda. Seja o primeiro!</p>
+            </div>
+        </div>
+
+        <div class="h-6"></div>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        var playing = false;
+        var progress = 0;
+        var progressInterval = null;
+
+        var modules = [
+            { id: 1, titulo: 'Contexto Econômico Atual', tipo: 'video', duracao: '18:45', concluido: true, ativo: false },
+            { id: 2, titulo: 'Panorama do Mercado Brasileiro', tipo: 'video', duracao: '22:10', concluido: true, ativo: false },
+            { id: 3, titulo: 'Políticas Monetárias e Fiscais', tipo: 'video', duracao: '24:30', concluido: false, ativo: true },
+            { id: 4, titulo: 'Inflação: Causas e Consequências', tipo: 'video', duracao: '19:55', concluido: false, ativo: false },
+            { id: 5, titulo: 'Cenário Internacional e Impactos', tipo: 'video', duracao: '16:30', concluido: false, ativo: false },
+            { id: 6, titulo: 'Estudo de Caso: Brasil 2024', tipo: 'pdf', duracao: 'Leitura', concluido: false, ativo: false },
+            { id: 7, titulo: 'Mesa-redonda com Especialistas', tipo: 'ao-vivo', duracao: '45:00', concluido: false, ativo: false },
+            { id: 8, titulo: 'Avaliação Final do Módulo', tipo: 'avaliacao', duracao: '10 questões', concluido: false, ativo: false }
+        ];
+
+        var perguntas = [
+            { id: 1, nome: 'Carlos M.', texto: 'Como a taxa Selic atual impacta diretamente os pequenos empresários?', data: '2025-01-14T10:30:00', respostas: 2, respondida: true, respostasDetalhes: [
+                { nome: 'Prof. Roberto Costa', texto: 'Excelente pergunta, Carlos. A taxa Selic mais alta encarece o crédito...', data: '2025-01-14T14:20:00' },
+                { nome: 'Ana Beatriz S.', texto: 'Complementando o Prof. Roberto, no nosso setor temos sentido...', data: '2025-01-14T16:45:00' }
+            ]},
+            { id: 2, nome: 'Fernanda L.', texto: 'Existe uma previsão de quando o IPCA deve retornar à meta?', data: '2025-01-13T08:15:00', respostas: 1, respondida: true, respostasDetalhes: [
+                { nome: 'Dra. Maria Fernandes', texto: 'Segundo as projeções mais recentes do Boletim Focus...', data: '2025-01-13T11:30:00' }
+            ]},
+            { id: 3, nome: 'Ricardo P.', texto: 'O arcabouço fiscal aprovado recentemente vai ajudar a controlar a inflação?', data: '2025-01-12T16:50:00', respostas: 0, respondida: false, respostasDetalhes: [] },
+            { id: 4, nome: 'Patrícia A.', texto: 'Qual a diferença entre spread bancário e taxa de juros básica?', data: '2025-01-11T09:00:00', respostas: 1, respondida: true, respostasDetalhes: [
+                { nome: 'Prof. Roberto Costa', texto: 'São conceitos distintos mas relacionados. A taxa básica (Selic)...', data: '2025-01-11T12:15:00' }
+            ]},
+            { id: 5, nome: 'João V.', texto: 'Poderia indicar leituras complementares sobre política fiscal no Brasil?', data: '2025-01-10T14:20:00', respostas: 2, respondida: true, respostasDetalhes: [
+                { nome: 'Dra. Maria Fernandes', texto: 'Claro! Recomendo fortemente o livro do Gustavo Franco...', data: '2025-01-10T17:30:00' },
+                { nome: 'Prof. Roberto Costa', texto: 'Adicionando à lista da Dra. Maria, também sugiro o trabalho...', data: '2025-01-10T18:00:00' }
+            ]},
+            { id: 6, nome: 'Luciana M.', texto: 'Como os juros americanos influenciam o mercado brasileiro?', data: '2025-01-09T11:40:00', respostas: 0, respondida: false, respostasDetalhes: [] },
+            { id: 7, nome: 'André S.', texto: 'O câmbio flutuante é realmente o melhor regime para o Brasil hoje?', data: '2025-01-08T15:10:00', respostas: 1, respondida: true, respostasDetalhes: [
+                { nome: 'Dra. Maria Fernandes', texto: 'É uma discussão fascinante. O regime de câmbio flutuante...', data: '2025-01-08T18:45:00' }
+            ]},
+            { id: 8, nome: 'Mariana F.', texto: 'Existe algum indicador econômico que vocês recomendam acompanhar diariamente?', data: '2025-01-07T08:30:00', respostas: 0, respondida: false, respostasDetalhes: [] }
+        ];
+
+        function tipoIcone(tipo) {
+            if (tipo === 'video') return '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+            if (tipo === 'pdf') return '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/></svg>';
+            if (tipo === 'ao-vivo') return '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>';
+            if (tipo === 'avaliacao') return '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>';
+            return '';
+        }
+
+        function tipoLabel(tipo) {
+            if (tipo === 'video') return 'Vídeo';
+            if (tipo === 'pdf') return 'Material';
+            if (tipo === 'ao-vivo') return 'Ao Vivo';
+            if (tipo === 'avaliacao') return 'Avaliação';
+            return '';
+        }
+
+        function tipoBadgeColor(tipo) {
+            if (tipo === 'video') return 'bg-marca/15 text-marca-300';
+            if (tipo === 'pdf') return 'bg-blue-500/15 text-blue-400';
+            if (tipo === 'ao-vivo') return 'bg-red-500/15 text-red-400';
+            if (tipo === 'avaliacao') return 'bg-emerald-500/15 text-emerald-400';
+            return 'bg-neutral-700/50 text-neutral-400';
+        }
+
+        function renderModules() {
+            var container = document.getElementById('modules-list');
+            if (!container) return;
+            var html = '';
+            modules.forEach(function(m) {
+                html += '<div class="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all border ' + (m.ativo ? 'bg-marca/10 border-marca/30' : 'bg-neutral-800/40 border-neutral-700/30 hover:border-neutral-600/50 hover:bg-neutral-800/70') + ' active:scale-[0.98]" onclick="player_do_curso_selecionarModulo(' + m.id + ')">';
+                html += '<div class="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center ' + (m.concluido ? 'bg-emerald-500/15 text-emerald-400' : (m.ativo ? 'bg-marca/20 text-marca-300' : 'bg-neutral-700/50 text-neutral-500')) + '">';
+                if (m.concluido) {
+                    html += '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+                } else {
+                    html += tipoIcone(m.tipo);
+                }
+                html += '</div>';
+                html += '<div class="flex-1 min-w-0">';
+                html += '<p class="text-sm font-body font-medium ' + (m.ativo ? 'text-marca-200' : 'text-neutral-300') + ' truncate">' + m.titulo + '</p>';
+                html += '<div class="flex items-center gap-2 mt-0.5">';
+                html += '<span class="text-xs text-neutral-500 font-body">' + m.duracao + '</span>';
+                html += '<span class="text-[10px] px-1.5 py-0.5 rounded-full font-body ' + tipoBadgeColor(m.tipo) + '">' + tipoLabel(m.tipo) + '</span>';
+                html += '</div></div>';
+                if (m.ativo) {
+                    html += '<div class="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-marca animate-pulse"></div>';
+                }
+                html += '</div>';
+            });
+            container.innerHTML = html;
+            updateCompletedCount();
+        }
+
+        function updateCompletedCount() {
+            var count = modules.filter(function(m) { return m.concluido; }).length;
+            var el = document.getElementById('completed-count');
+            if (el) el.textContent = count + ' de ' + modules.length + ' concluídos';
+        }
+
+        function renderQA() {
+            var container = document.getElementById('qa-list');
+            if (!container) return;
+            if (perguntas.length === 0) {
+                container.classList.add('hidden');
+                var emptyEl = document.getElementById('qa-empty');
+                if (emptyEl) emptyEl.classList.remove('hidden');
+                return;
+            }
+            container.classList.remove('hidden');
+            var emptyEl = document.getElementById('qa-empty');
+            if (emptyEl) emptyEl.classList.add('hidden');
+
+            var html = '';
+            perguntas.forEach(function(p) {
+                var dataFormatada = dataBR(p.data);
+                html += '<div class="bg-neutral-800/40 border border-neutral-700/30 rounded-xl overflow-hidden">';
+                html += '<div class="p-3.5">';
+                html += '<div class="flex items-start gap-3">';
+                html += '<div class="flex-shrink-0 w-8 h-8 rounded-full bg-marca/15 flex items-center justify-center text-xs font-bold text-marca-300">';
+                html += p.nome.split(' ').map(function(n){ return n[0]; }).join('').substring(0,2).toUpperCase();
+                html += '</div>';
+                html += '<div class="flex-1 min-w-0">';
+                html += '<div class="flex items-center gap-2 mb-1">';
+                html += '<span class="text-sm font-body font-medium text-neutral-200">' + p.nome + '</span>';
+                html += '<span class="text-[10px] text-neutral-500 font-body">' + dataFormatada + '</span>';
+                html += '</div>';
+                html += '<p class="text-sm text-neutral-300 font-body leading-relaxed">' + p.texto + '</p>';
+                html += '<div class="flex items-center gap-3 mt-2">';
+                html += '<button onclick="player_do_curso_toggleRespostas(' + p.id + ')" class="text-xs text-marca-400 hover:text-marca-300 transition-colors flex items-center gap-1">';
+                html += '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>';
+                html += p.respostas + ' resposta' + (p.respostas !== 1 ? 's' : '');
+                html += '</button>';
+                html += p.respondida ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 font-body">Respondida</span>' : '<span class="text-[10px] px-2 py-0.5 rounded-full bg-neutral-700/50 text-neutral-400 font-body">Aguardando resposta</span>';
+                html += '</div></div></div></div>';
+
+                // Respostas (escondidas por padrão)
+                if (p.respostasDetalhes && p.respostasDetalhes.length > 0) {
+                    html += '<div id="qa-respostas-' + p.id + '" class="hidden border-t border-neutral-700/30 bg-neutral-900/30">';
+                    p.respostasDetalhes.forEach(function(r) {
+                        html += '<div class="p-3.5 ml-8 border-l-2 border-marca/20">';
+                        html += '<div class="flex items-center gap-2 mb-1">';
+                        html += '<div class="w-6 h-6 rounded-full bg-marca/15 flex items-center justify-center text-[10px] font-bold text-marca-300">';
+                        html += r.nome.split(' ').map(function(n){ return n[0]; }).join('').substring(0,2).toUpperCase();
+                        html += '</div>';
+                        html += '<span class="text-xs font-body font-medium text-neutral-300">' + r.nome + '</span>';
+                        html += '<span class="text-[10px] text-neutral-500 font-body">' + dataBR(r.data) + '</span>';
+                        html += '</div>';
+                        html += '<p class="text-xs text-neutral-400 font-body leading-relaxed pl-8">' + r.texto + '</p>';
+                        html += '</div>';
+                    });
+                    html += '</div>';
+                }
+                html += '</div>';
+            });
+            container.innerHTML = html;
+        }
+
+        window.player_do_curso_selecionarModulo = function(id) {
+            modules.forEach(function(m) { m.ativo = (m.id === id); });
+            var modulo = modules.find(function(m) { return m.id === id; });
+            if (modulo) {
+                var titleEl = document.getElementById('player-video-title');
+                if (titleEl) titleEl.textContent = modulo.titulo;
+                // Reset progress
+                progress = 0;
+                updateProgressBar();
+                playing = false;
+                stopProgressSimulation();
+                updatePlayState();
+                if (!modulo.concluido) {
+                    toast('Carregando: ' + modulo.titulo, 'info');
+                } else {
+                    toast('Replay: ' + modulo.titulo, 'info');
+                }
+            }
+            renderModules();
+        };
+
+        window.player_do_curso_togglePlay = function() {
+            playing = !playing;
+            updatePlayState();
+            if (playing) {
+                startProgressSimulation();
+                toast('Reproduzindo...', 'info');
+            } else {
+                stopProgressSimulation();
+                toast('Vídeo pausado', 'info');
+            }
+        };
+
+        function updatePlayState() {
+            var overlay = document.getElementById('video-overlay');
+            var thumb = document.getElementById('video-thumbnail');
+            if (!overlay || !thumb) return;
+            if (playing) {
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex');
+                thumb.style.opacity = '1';
+            } else {
+                overlay.classList.remove('hidden');
+                overlay.classList.add('flex');
+                thumb.style.opacity = '0.3';
+            }
+        }
+
+        function startProgressSimulation() {
+            stopProgressSimulation();
+            progressInterval = setInterval(function() {
+                if (progress < 100) {
+                    progress += 0.15;
+                    updateProgressBar();
+                    updateCurrentTime();
+                } else {
+                    progress = 100;
+                    updateProgressBar();
+                    playing = false;
+                    stopProgressSimulation();
+                    updatePlayState();
+                    toast('Aula concluída!', 'ok');
+                    // Mark as completed
+                    modules.forEach(function(m) { if (m.ativo) m.concluido = true; });
+                    renderModules();
+                }
+            }, 100);
+        }
+
+        function stopProgressSimulation() {
+            if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+        }
+
+        function updateProgressBar() {
+            var bar = document.getElementById('video-progress');
+            if (bar) bar.style.width = Math.min(progress, 100) + '%';
+        }
+
+        function updateCurrentTime() {
+            var el = document.getElementById('video-current');
+            if (!el) return;
+            var totalSeconds = 24 * 60 + 30;
+            var current = Math.floor((progress / 100) * totalSeconds);
+            var m = Math.floor(current / 60);
+            var s = current % 60;
+            el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+        }
+
+        window.player_do_curso_enviarPergunta = function() {
+            var nomeEl = document.getElementById('qa-nome');
+            var perguntaEl = document.getElementById('qa-pergunta');
+            if (!nomeEl || !perguntaEl) return;
+            var nome = nomeEl.value.trim();
+            var texto = perguntaEl.value.trim();
+            if (!nome) { toast('Informe seu nome', 'erro'); nomeEl.focus(); return; }
+            if (!texto) { toast('Escreva sua pergunta', 'erro'); perguntaEl.focus(); return; }
+            var agora = new Date();
+            var iso = agora.getFullYear() + '-' + String(agora.getMonth()+1).padStart(2,'0') + '-' + String(agora.getDate()).padStart(2,'0') + 'T' + String(agora.getHours()).padStart(2,'0') + ':' + String(agora.getMinutes()).padStart(2,'0') + ':' + String(agora.getSeconds()).padStart(2,'0');
+            perguntas.unshift({ id: Date.now(), nome: nome, texto: texto, data: iso, respostas: 0, respondida: false, respostasDetalhes: [] });
+            nomeEl.value = '';
+            perguntaEl.value = '';
+            renderQA();
+            toast('Pergunta enviada com sucesso!', 'ok');
+            // Scroll to the new question
+            var qaList = document.getElementById('qa-list');
+            if (qaList) qaList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        window.player_do_curso_toggleRespostas = function(id) {
+            var el = document.getElementById('qa-respostas-' + id);
+            if (!el) return;
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        };
+
+        // Inicialização
+        renderModules();
+        renderQA();
+        updateProgressBar();
+
+    })();
+    </script>
+</section>
+
     <!-- TELAS -->
     </main>
 
